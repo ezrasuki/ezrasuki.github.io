@@ -9,7 +9,7 @@
 		<meta content="" name="description">
 		<meta content="EzraSuki" name="author">
 		
-		<title>Core Image &mdash; EzraSuki</title>
+		<title>Core Image Basics &mdash; EzraSuki</title>
 		
 		<!-- Styles -->
 		<link href="/stylesheets/main.css" rel="stylesheet">
@@ -49,7 +49,7 @@
 <!-- START OF _includes/article.html -->
 <article>
 	<header>
-		<h1><a href="/blog/2013/09/07/core-image/">Core Image</a></h1>
+		<h1><a href="/blog/2013/09/07/core-image/">Core Image Basics</a></h1>
 		<time>07 September 2013</time>
 	</header>
 		<div class="content">
@@ -57,26 +57,27 @@
 
 <p>Example</p>
 
-<p>  // 1. Create CIContext
-  CIContext *context = [CIContext contextWithOptions:nil];</p>
+<pre><code>// 1. Create CIContext
+CIContext *context = [CIContext contextWithOptions:nil];
 
-<p>  // 2. Get a CIImage
-  CIImage *image = [CIImage imageWithContentsOfURL:myURL];</p>
+// 2. Get a CIImage
+CIImage *image = [CIImage imageWithContentsOfURL:myURL];
 
-<p>  // 3. Create a CIFilter
-  CIFilter *filter = [CIFilter filterWithName:@&ldquo;CISepiaTone&rdquo;];</p>
+// 3. Create a CIFilter
+CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
 
-<p>  // 4. Apply the filter to the image
-  [filter setValue:image forKey:kCIInputImageKey];</p>
+// 4. Apply the filter to the image
+[filter setValue:image forKey:kCIInputImageKey];
 
-<p>  // 5. More CIFilter customization
-  [filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@&ldquo;InputIntensity&rdquo;];</p>
+// 5. More CIFilter customization
+[filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@"InputIntensity"];
 
-<p>  // 6. Get the resulting image from CIFilter
-  CIImage *result = [filter valueForKey:kCIOutputImageKey];</p>
+// 6. Get the resulting image from CIFilter
+CIImage *result = [filter valueForKey:kCIOutputImageKey];
 
-<p>  // 7. Finally, render CIImage onto Core Graphics Image, which then can be displayed or saved.
-  CGImageRef cgImage = [context createCGImage:result fromRect:[result extent];</p>
+// 7. Finally, render CIImage onto Core Graphics Image, which then can be displayed or saved.
+CGImageRef cgImage = [context createCGImage:result fromRect:[result extent];
+</code></pre>
 
 		</div>
 	<footer>
