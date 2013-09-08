@@ -4,7 +4,7 @@
 	<title><![CDATA[EzraSuki]]></title>
 	<link href="http://ezrasuki.github.io/atom.xml" rel="self"/>
 	<link href="http://ezrasuki.github.io/"/>
-	<updated>2013-09-07T23:42:43-04:00</updated>
+	<updated>2013-09-08T00:06:32-04:00</updated>
 	<id>http://ezrasuki.github.io/</id>
 	<author>
 		<name><![CDATA[Ezrasuki]]></name>
@@ -12,6 +12,47 @@
 	</author>
 	<generator uri="http://octopress.org/">Octopress</generator>
 
+	
+	<entry>
+		
+			<title type="html"><![CDATA[Core Image]]></title>
+		
+		<link href="http://ezrasuki.github.io/blog/2013/09/07/core-image/"/>
+		<updated>2013-09-07T23:56:00-04:00</updated>
+		<id>http://ezrasuki.github.io/blog/2013/09/07/core-image</id>
+		<content type="html">
+			<![CDATA[
+				
+					<p></p>
+				
+			]]>
+			<![CDATA[<p>Take a <strong>CIImage</strong> and apply <strong>CIFilter</strong> to draw on <strong>CIContext</strong></p>
+
+<p>Example</p>
+
+<p>  // 1. Create CIContext
+  CIContext *context = [CIContext contextWithOptions:nil];</p>
+
+<p>  // 2. Get a CIImage
+  CIImage *image = [CIImage imageWithContentsOfURL:myURL];</p>
+
+<p>  // 3. Create a CIFilter
+  CIFilter *filter = [CIFilter filterWithName:@&ldquo;CISepiaTone&rdquo;];</p>
+
+<p>  // 4. Apply the filter to the image
+  [filter setValue:image forKey:kCIInputImageKey];</p>
+
+<p>  // 5. More CIFilter customization
+  [filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@&ldquo;InputIntensity&rdquo;];</p>
+
+<p>  // 6. Get the resulting image from CIFilter
+  CIImage *result = [filter valueForKey:kCIOutputImageKey];</p>
+
+<p>  // 7. Finally, render CIImage onto Core Graphics Image, which then can be displayed or saved.
+  CGImageRef cgImage = [context createCGImage:result fromRect:[result extent];</p>
+]]>
+		</content>
+	</entry>
 	
 	<entry>
 		
