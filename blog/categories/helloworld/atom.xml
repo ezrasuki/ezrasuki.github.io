@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Helloworld | EzraSuki]]></title>
+  <link href="http://ezrasuki.github.io/blog/categories/helloworld/atom.xml" rel="self"/>
+  <link href="http://ezrasuki.github.io/"/>
+  <updated>2013-09-07T23:27:47-04:00</updated>
+  <id>http://ezrasuki.github.io/</id>
+  <author>
+    <name><![CDATA[Ezrasuki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://ezrasuki.github.io/blog/2013/09/07/hello-world/"/>
+    <updated>2013-09-07T23:18:00-04:00</updated>
+    <id>http://ezrasuki.github.io/blog/2013/09/07/hello-world</id>
+    <content type="html"><![CDATA[<h1>Hello World</h1>
+
+<h2>Blockquote example</h2>
+
+<p>This is an example of a blockquote.</p>
+
+<blockquote><p>This is the first post
+This is a <a href="http://google.com/" title="Title">link</a></p></blockquote>
+
+<hr />
+
+<h2>Image Example</h2>
+
+<p><img src="http://www.socialyeti.com/wp-content/uploads/2012/12/Le-Bain-NYC-Pool.jpg" alt="image example placeholder" /></p>
+
+<hr />
+
+<h2>Code Example</h2>
+
+<p>This is an example of a javascript code</p>
+
+<pre><code>var sayHello = function(){
+  for(var j = 0; j &lt; 100 ; j++){
+      console.log("Hello World " + j);
+  }
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
