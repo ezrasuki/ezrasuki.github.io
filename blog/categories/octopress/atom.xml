@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[EzraSuki]]></title>
-  <link href="http://ezrasuki.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: octopress | EzraSuki]]></title>
+  <link href="http://ezrasuki.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://ezrasuki.github.io/"/>
   <updated>2013-09-08T07:06:47-04:00</updated>
   <id>http://ezrasuki.github.io/</id>
@@ -118,118 +118,6 @@ git push origin source
 </code></pre>
 
 <p>Note that <code>git push origin master</code> has been already executed automatically when we ran <code>rake deploy</code> earlier. Again, that was for pushing the final static content. And this time, <code>git push origin source</code> is for pushing the source files.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AVFoundation Overview]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview/"/>
-    <updated>2013-09-08T00:13:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview</id>
-    <content type="html"><![CDATA[<h1>AVAsset</h1>
-
-<h2>Facts about AVAsset</h2>
-
-<ul>
-<li>Made up of &ldquo;Tracks&rdquo; : Could be audio track or video track.</li>
-<li>Provides information about the collection as a whole, including title, duration, size, etc.</li>
-<li>Not tied to a file format</li>
-<li>Initializaing an asset doesn&rsquo;t mean it&rsquo;s ready to use. Therefore use a block for asynchronous usage.</li>
-</ul>
-
-
-<h2>Using AVAsset</h2>
-
-<h3>1. Typical Scenario</h3>
-
-<pre><code>// 1. Get File Manager
-NSFileManager *filemgr = [NSFileManager defaultManager];
-
-// 2. Get vid.mov inside tmp directory
-NSString *fileName = [NSTemporaryDirectory() stringByAppendingPathComponent:@"vid.mov"];
-
-// 3. Get a NSURL version of the filename
-NSURL *url = [NSURL fileURLWithPath: fileName];
-
-// 4. Create an asset with the URL
-AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
-</code></pre>
-
-<h3>2. Initialize for precise timing</h3>
-
-<p>  For just playing, probably no need for passing the option. However if I want to add the asset to an AVMutableComposition, I may need to.</p>
-
-<pre><code>NSDictionary *options = @{ AVURLAssetPreferPreciseDurationAndTimingKey : @YES };
-AVURLAsset *anAssetToUseInAComposition = [[AVURLAsset alloc] initWithURL:url options:options];
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Core Image Basics]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/07/core-image/"/>
-    <updated>2013-09-07T23:56:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/07/core-image</id>
-    <content type="html"><![CDATA[<p>Take a <strong>CIImage</strong> and apply <strong>CIFilter</strong> to draw on <strong>CIContext</strong></p>
-
-<p>Example</p>
-
-<pre><code>// 1. Create CIContext
-CIContext *context = [CIContext contextWithOptions:nil];
-
-// 2. Get a CIImage
-CIImage *image = [CIImage imageWithContentsOfURL:myURL];
-
-// 3. Create a CIFilter
-CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
-
-// 4. Apply the filter to the image
-[filter setValue:image forKey:kCIInputImageKey];
-
-// 5. More CIFilter customization
-[filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@"InputIntensity"];
-
-// 6. Get the resulting image from CIFilter
-CIImage *result = [filter valueForKey:kCIOutputImageKey];
-
-// 7. Finally, render CIImage onto Core Graphics Image, which then can be displayed or saved.
-CGImageRef cgImage = [context createCGImage:result fromRect:[result extent];
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/07/hello-world/"/>
-    <updated>2013-09-07T23:18:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/07/hello-world</id>
-    <content type="html"><![CDATA[<h1>Hello World</h1>
-
-<h2>Blockquote example</h2>
-
-<p>This is an example of a blockquote.</p>
-
-<blockquote><p>This is the first post
-This is a <a href="http://google.com/" title="Title">link</a></p></blockquote>
-
-<hr />
-
-<h2>Image Example</h2>
-
-<p><img src="http://www.socialyeti.com/wp-content/uploads/2012/12/Le-Bain-NYC-Pool.jpg" alt="image example placeholder" /></p>
-
-<hr />
-
-<h2>Code Example</h2>
-
-<p>This is an example of a javascript code</p>
-
-<pre><code>var sayHello = function(){
-  for(var j = 0; j &lt; 100 ; j++){
-      console.log("Hello World " + j);
-  }
-}
-</code></pre>
 ]]></content>
   </entry>
   

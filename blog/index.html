@@ -7,8 +7,7 @@
 	<meta name="author" content="Ezrasuki">
 
 	
-	<meta name="description" content="AVAsset Facts about AVAsset Made up of &ldquo;Tracks&rdquo; : Could be audio track or video track.
-Provides information about the collection as a &hellip;">
+	<meta name="description" content="A. Setting up 1. Clone Octopress to local machine Clone the original octopress repo with the name I want for my blog. Running this will create an & &hellip;">
 	
 
 	<link href="/atom.xml" rel="alternate" title="EzraSuki" type="application/atom+xml">
@@ -33,6 +32,145 @@ Provides information about the collection as a &hellip;">
 </nav>
 </header>
 	<div id="content" class="inner">
+
+
+    <article class="post"><header>
+  
+  <h1 class="title"><a href="/blog/2013/09/08/getting-started-with-octopress/">Getting Started With Octopress</a></h1>
+  
+  
+
+
+
+
+
+
+
+
+	
+		<time datetime="2013-09-08T06:28:00-04:00">
+			<span class="day"> 8</span><span class="month">Sep</span>
+		</time>
+	
+
+</header>
+<div class="entry-content">
+  
+    <h1>A. Setting up</h1>
+
+<h2>1. Clone Octopress to local machine</h2>
+
+<p>Clone the original octopress repo with the name I want for my blog. Running this will create an &ldquo;ezrasuki.github.io&rdquo; folder.</p>
+
+<pre><code>git clone git://github.com/imathis/octopress.git ezrasuki.github.io
+</code></pre>
+
+<h2>2. Install Octopress</h2>
+
+<pre><code>bundle install
+rake install
+</code></pre>
+
+<h2>3. Configure Octopress</h2>
+
+<p>Open <code>_config.yml</code> and edit some attributes I want to change.</p>
+
+<pre><code>url: ezrasuki.github.io
+title: .ezra.suki.
+subtitle: Adventure of Ezrasuki
+author: Ezrasuki
+simple_search: http://google.com/search
+description:
+</code></pre>
+
+<h1>B. Writing a post locally</h1>
+
+<p>From the blog root directory (In my case, the ezrasuki.github.io folder I created by cloning), run this task:</p>
+
+<pre><code>rake new_post["Hello World"]
+</code></pre>
+
+<p>It will create a .markdown file under <code>source/_posts</code>, with a name that looks like: <code>2013-09-07-hello-world.markdown</code>. Open and edit so it looks something like this:</p>
+
+<pre><code>---
+layout: post
+title: "Hello World"
+date: 2013-09-07 23:18
+comments: true
+categories: [Test, Helloworld]
+---
+
+This is the content. You can write in markdown.
+</code></pre>
+
+<p>Note that &ldquo;categories&rdquo; are basically tags.</p>
+
+<h1>C. Preview blog</h1>
+
+<p>When done, generate HTML from the markdown with:</p>
+
+<pre><code>rake generate
+</code></pre>
+
+<p>To preview the post locally, run the following command, which will start a <a href="http://localhost:4000">http://localhost:4000</a> server you can visit.</p>
+
+<pre><code>rake preview
+</code></pre>
+
+<h1>C. Deploy to Github</h1>
+
+<p>There are many options for hosting, but I am hosting it on Github because it&rsquo;s free.</p>
+
+<h2>1. Create a Github repo</h2>
+
+<p>Create a repo with the name of your blog. It should look like this: <code>[your github username].github.io</code>. Mine is <code>ezrasuki.github.io</code></p>
+
+<h2>2. Connect Octopress with the Github repo</h2>
+
+<p>Octopress has a rake command which automatically takes care of all this. Run:</p>
+
+<pre><code>rake setup_github_pages
+</code></pre>
+
+<p>It will ask you the github repo url. Copy the clone URL from the Github repo and paste it here. It should look something like <code>https://github.com/ezrasuki/ezrasuki.github.io.git</code>.</p>
+
+<h2>3. Deploy</h2>
+
+<h3>A. Deploy generated blog files</h3>
+
+<p>Finally, deploy all the local changes (including the new post) to Github pages repo by running:</p>
+
+<pre><code>rake deploy
+</code></pre>
+
+<h3>B. Deploy source files</h3>
+
+<p>This only deploys the master branch, which contains the generated blog content. You may also want to push the source branch. The source branch contains everything except for the generated blog files. This includes:
+1. Octopress source code
+2. Markdown files for posts</p>
+
+<p>Therefore it is a good idea to commit these too, in order to keep track of this side as well. Run the following:</p>
+
+<pre><code>git commit -am "Committing source"
+git push origin source
+</code></pre>
+
+<p>Note that <code>git push origin master</code> has been already executed automatically when we ran <code>rake deploy</code> earlier. Again, that was for pushing the final static content. And this time, <code>git push origin source</code> is for pushing the source files.</p>
+
+  
+  
+  <footer class="meta">
+    
+
+
+
+	<div class="tags"><a class='category' href='/blog/categories/learn/'>learn</a><a class='category' href='/blog/categories/octopress/'>octopress</a></div>
+
+    
+  </footer>
+  
+</div>
+</article>
 
 
     <article class="post"><header>
