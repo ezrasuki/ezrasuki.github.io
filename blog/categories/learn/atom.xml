@@ -4,7 +4,7 @@
   <title><![CDATA[Category: learn | EzraSuki]]></title>
   <link href="http://ezrasuki.github.io/blog/categories/learn/atom.xml" rel="self"/>
   <link href="http://ezrasuki.github.io/"/>
-  <updated>2013-09-08T00:08:44-04:00</updated>
+  <updated>2013-09-08T06:26:12-04:00</updated>
   <id>http://ezrasuki.github.io/</id>
   <author>
     <name><![CDATA[Ezrasuki]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AVFoundation Overview]]></title>
+    <link href="http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview/"/>
+    <updated>2013-09-08T00:13:00-04:00</updated>
+    <id>http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview</id>
+    <content type="html"><![CDATA[<h1>AVAsset</h1>
+
+<h2>Facts about AVAsset</h2>
+
+<ul>
+<li>Made up of &ldquo;Tracks&rdquo; : Could be audio track or video track.</li>
+<li>Provides information about the collection as a whole, including title, duration, size, etc.</li>
+<li>Not tied to a file format</li>
+<li>Initializaing an asset doesn&rsquo;t mean it&rsquo;s ready to use. Therefore use a block for asynchronous usage.</li>
+</ul>
+
+
+<h2>Using AVAsset</h2>
+
+<h3>1. Typical Scenario</h3>
+
+<pre><code>// 1. Get File Manager
+NSFileManager *filemgr = [NSFileManager defaultManager];
+
+// 2. Get vid.mov inside tmp directory
+NSString *fileName = [NSTemporaryDirectory() stringByAppendingPathComponent:@"vid.mov"];
+
+// 3. Get a NSURL version of the filename
+NSURL *url = [NSURL fileURLWithPath: fileName];
+
+// 4. Create an asset with the URL
+AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
+</code></pre>
+
+<h3>2. Initialize for precise timing</h3>
+
+<p>  For just playing, probably no need for passing the option. However if I want to add the asset to an AVMutableComposition, I may need to.</p>
+
+<pre><code>NSDictionary *options = @{ AVURLAssetPreferPreciseDurationAndTimingKey : @YES };
+AVURLAsset *anAssetToUseInAComposition = [[AVURLAsset alloc] initWithURL:url options:options];
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Core Image Basics]]></title>
