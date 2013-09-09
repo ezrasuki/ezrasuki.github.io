@@ -1,0 +1,285 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Drawing with Core Graphics and Quartz2D | ezrasuki</title>
+	<meta name="author" content="Ezrasuki">
+
+	
+	<meta name="description" content="Various Quartz2D inititalization Get the current view&rsquo;s context Each view has its own drawing context. Let&rsquo;s first get the context. &hellip;">
+	
+
+	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	
+
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><nav><h1><a href = "/">ezrasuki</a></h1>
+<!--
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+-->
+</nav>
+</header>
+	<div id="content" class="inner"><article class="post"><header>
+  
+  <h1 class="title">Drawing With Core Graphics and Quartz2D</h1>
+  
+  
+
+
+
+
+
+
+
+
+	
+		<time datetime="2013-09-08T20:42:00-04:00">
+			<span class="day"> 8</span><span class="month">Sep</span>
+		</time>
+	
+
+</header>
+<div class="entry-content">
+  
+    <h1>Various Quartz2D inititalization</h1>
+
+<h2>Get the current view&rsquo;s context</h2>
+
+<p>Each view has its own drawing context. Let&rsquo;s first get the context.</p>
+
+<pre><code>CGContextRef graphics_context = UIGraphicsGetCurrentContext();
+</code></pre>
+
+<h2>Generate color</h2>
+
+<pre><code>// Create colorspace (In this case, RGB space)
+CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+
+// Set up RGB constant
+CGFloat components[] = {0.0, 0.0, 1.0, 0.5};
+
+// Create CGColorRef using the colorspace and the RGB variable from above
+CGColorRef color = CGColorCreate(colorspace, components);
+
+// When done with using the color, let it go
+CGColorRelease (color);
+
+// After done using the colorspace
+CGColorSpaceRelease(colorspace);
+</code></pre>
+
+<h1>When do I use UIColor with CGColorRef?</h1>
+
+<p>UIColor has lots of convenience methods such as:</p>
+
+<pre><code>[UIColor redColor]
+</code></pre>
+
+<p>So instead of going through all the tedious RGB specification, we can just create a <code>[UIColor redColor]</code> and then convert it to CGColor, and then use it to set context</p>
+
+<pre><code>CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+</code></pre>
+
+<p>UIColor avoids the necessity to create colorspaces and components when working with colors.</p>
+
+<h1>Let&rsquo;s actually do some drawing!</h1>
+
+<h2>1. Create a UIView</h2>
+
+<p>Just create a project with a UIView</p>
+
+<h2>2. Modify drawRect:</h2>
+
+<h3>Drawing lines</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Get context
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    // From here, set the context's attributes
+
+    // 2. Set Line Width
+    CGContextSetLineWidth(context, 5.0);
+
+    // 3. Set Stroke Color 
+    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+    CGFloat components[] = {0.0, 0.0, 1.0, 1.0};
+    CGColorRef color = CGColorCreate(colorspace, components);
+    CGContextSetStrokeColorWithColor(context, color);
+
+    // 4. Move context's point
+    CGContextMoveToPoint(context, 0, 0);
+
+    // 5. Draw line from point to another point
+    CGContextAddLineToPoint(context, 150, 150);
+    CGContextAddLineToPoint(context, 100, 200);
+    CGContextAddLineToPoint(context, 50, 150);
+    CGContextAddLineToPoint(context, 100, 100);
+
+    // 6. Actually "stroke" to draw
+    CGContextStrokePath(context);
+
+    // 6. Memory release
+    CGColorSpaceRelease(colorspace);
+    CGColorRelease(color);
+}
+</code></pre>
+
+<h3>Drawing rectangle</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Init
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 4.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+
+    // 2. Create CGRect area
+    CGRect rectangle = CGRectMake(60,170,200,80);
+
+    // 3. Add rectangle region to the context
+    CGContextAddRect(context, rectangle);
+
+    // 4. Actually "stroke" to draw
+    CGContextStrokePath(context);
+}
+</code></pre>
+
+<h3>Drawing an ellipse</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Init
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 4.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+
+    // 2. Create CGRect area
+    CGRect rectangle = CGRectMake(60,170,200,80);
+
+    // 3. Add ellipse inside the CGRect in context
+    CGContextAddEllipseInRect(context, rectangle);
+
+    // 4. Actually "stroke" to draw
+    CGContextStrokePath(context);
+}
+</code></pre>
+
+<h3>Drawing an arc</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 4.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+
+    // 1. Set begin point
+    CGContextMoveToPoint(context, 100, 100);
+
+    // 2. add arc to context
+    CGContextAddArcToPoint(context, 100,200, 300,200, 100);
+
+    // 3. stroke the context
+    CGContextStrokePath(context);
+}
+</code></pre>
+
+<h3>Drawing an UIImage without scaling</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+  // 1. Get UIIMage
+  UIImage *myImage = [UIImage imageNamed:@"img.jpg"];
+
+  // 2. Start point is (0,0)
+  CGPoint imagePoint = CGPointMake(0, 0);
+
+  // 3. Just add the image at (0,0)
+  [myImage drawAtPoint:imagePoint];
+}
+</code></pre>
+
+<h3>Drawing an UIImage with scaling</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Get UIImage
+    UIImage *myImage = [UIImage imageNamed:@"pumpkin.jpg"];
+
+    // 2. Get CGRect dimension for the entire screen
+    CGRect imageRect =[[UIScreen mainScreen] bounds];
+
+    // 3. Draw inside the CGRect
+    [myImage drawInRect:imageRect];
+}
+</code></pre>
+
+    
+      <div class="sharing">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4daee9911f9dfcb4"></script>
+</div>
+    
+  
+  
+  <footer class="meta">
+    
+
+
+
+	<div class="tags"><a class='category' href='/blog/categories/coregraphics/'>coregraphics</a><a class='category' href='/blog/categories/ios/'>iOS</a><a class='category' href='/blog/categories/quartz2d/'>quartz2d</a></div>
+
+    
+  </footer>
+  
+</div>
+</article></div>
+	<footer id="footer" class="inner"><div class="social alignright">
+	
+	
+	
+	
+	
+	<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+</div>
+<p>&copy; 2013 Ezrasuki</p>
+<div class="clearfix"></div></footer>
+	<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+	(function($){
+		$('.entry-content').each(function(i){
+			var _i = i;
+			$(this).find('img').each(function(){
+				var alt = $(this).attr('alt');
+
+				if (alt == '' || typeof alt == 'undefined'){
+					$(this).wrap('<a href="'+$(this).attr('src')+'" class="fancybox" rel="gallery'+_i+'" />');
+				} else {
+					$(this).after('<span class="caption">'+alt+'</span>').wrap('<a href="'+$(this).attr('src')+'" class="fancybox" title="'+alt+'" rel="gallery'+_i+'" />');
+				}
+			});
+		});
+		$('.fancybox').fancybox();
+	})(jQuery);
+</script>
+
+
+
+
+
+</body>
+</html>

@@ -7,9 +7,7 @@
 	<meta name="author" content="Ezrasuki">
 
 	
-	<meta name="description" content="What is an Opaque type? a type that wraps lower-level types
-used when the underlying implementation is complex
-the user does not need to know about &hellip;">
+	<meta name="description" content=" ">
 	
 
 	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
@@ -34,6 +32,250 @@ the user does not need to know about &hellip;">
 </nav>
 </header>
 	<div id="content" class="inner">
+
+
+	<article class="post"><header>
+  
+  <h1 class="title"><a href="/blog/2013/09/08/core-image/">Core Image</a></h1>
+  
+  
+
+
+
+
+
+
+
+
+	
+		<time datetime="2013-09-08T21:17:00-04:00">
+			<span class="day"> 8</span><span class="month">Sep</span>
+		</time>
+	
+
+</header>
+<div class="entry-content">
+  
+    
+
+  
+  
+  <footer class="meta">
+    
+
+
+
+    
+  </footer>
+  
+</div>
+</article>
+
+
+	<article class="post"><header>
+  
+  <h1 class="title"><a href="/blog/2013/09/08/drawing-with-core-graphics-and-quartz2d/">Drawing With Core Graphics and Quartz2D</a></h1>
+  
+  
+
+
+
+
+
+
+
+
+	
+		<time datetime="2013-09-08T20:42:00-04:00">
+			<span class="day"> 8</span><span class="month">Sep</span>
+		</time>
+	
+
+</header>
+<div class="entry-content">
+  
+    <h1>Various Quartz2D inititalization</h1>
+
+<h2>Get the current view&rsquo;s context</h2>
+
+<p>Each view has its own drawing context. Let&rsquo;s first get the context.</p>
+
+<pre><code>CGContextRef graphics_context = UIGraphicsGetCurrentContext();
+</code></pre>
+
+<h2>Generate color</h2>
+
+<pre><code>// Create colorspace (In this case, RGB space)
+CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+
+// Set up RGB constant
+CGFloat components[] = {0.0, 0.0, 1.0, 0.5};
+
+// Create CGColorRef using the colorspace and the RGB variable from above
+CGColorRef color = CGColorCreate(colorspace, components);
+
+// When done with using the color, let it go
+CGColorRelease (color);
+
+// After done using the colorspace
+CGColorSpaceRelease(colorspace);
+</code></pre>
+
+<h1>When do I use UIColor with CGColorRef?</h1>
+
+<p>UIColor has lots of convenience methods such as:</p>
+
+<pre><code>[UIColor redColor]
+</code></pre>
+
+<p>So instead of going through all the tedious RGB specification, we can just create a <code>[UIColor redColor]</code> and then convert it to CGColor, and then use it to set context</p>
+
+<pre><code>CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+</code></pre>
+
+<p>UIColor avoids the necessity to create colorspaces and components when working with colors.</p>
+
+<h1>Let&rsquo;s actually do some drawing!</h1>
+
+<h2>1. Create a UIView</h2>
+
+<p>Just create a project with a UIView</p>
+
+<h2>2. Modify drawRect:</h2>
+
+<h3>Drawing lines</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Get context
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    // From here, set the context's attributes
+
+    // 2. Set Line Width
+    CGContextSetLineWidth(context, 5.0);
+
+    // 3. Set Stroke Color 
+    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+    CGFloat components[] = {0.0, 0.0, 1.0, 1.0};
+    CGColorRef color = CGColorCreate(colorspace, components);
+    CGContextSetStrokeColorWithColor(context, color);
+
+    // 4. Move context's point
+    CGContextMoveToPoint(context, 0, 0);
+
+    // 5. Draw line from point to another point
+    CGContextAddLineToPoint(context, 150, 150);
+    CGContextAddLineToPoint(context, 100, 200);
+    CGContextAddLineToPoint(context, 50, 150);
+    CGContextAddLineToPoint(context, 100, 100);
+
+    // 6. Actually "stroke" to draw
+    CGContextStrokePath(context);
+
+    // 6. Memory release
+    CGColorSpaceRelease(colorspace);
+    CGColorRelease(color);
+}
+</code></pre>
+
+<h3>Drawing rectangle</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Init
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 4.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+
+    // 2. Create CGRect area
+    CGRect rectangle = CGRectMake(60,170,200,80);
+
+    // 3. Add rectangle region to the context
+    CGContextAddRect(context, rectangle);
+
+    // 4. Actually "stroke" to draw
+    CGContextStrokePath(context);
+}
+</code></pre>
+
+<h3>Drawing an ellipse</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Init
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 4.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+
+    // 2. Create CGRect area
+    CGRect rectangle = CGRectMake(60,170,200,80);
+
+    // 3. Add ellipse inside the CGRect in context
+    CGContextAddEllipseInRect(context, rectangle);
+
+    // 4. Actually "stroke" to draw
+    CGContextStrokePath(context);
+}
+</code></pre>
+
+<h3>Drawing an arc</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 4.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+
+    // 1. Set begin point
+    CGContextMoveToPoint(context, 100, 100);
+
+    // 2. add arc to context
+    CGContextAddArcToPoint(context, 100,200, 300,200, 100);
+
+    // 3. stroke the context
+    CGContextStrokePath(context);
+}
+</code></pre>
+
+<h3>Drawing an UIImage without scaling</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+  // 1. Get UIIMage
+  UIImage *myImage = [UIImage imageNamed:@"img.jpg"];
+
+  // 2. Start point is (0,0)
+  CGPoint imagePoint = CGPointMake(0, 0);
+
+  // 3. Just add the image at (0,0)
+  [myImage drawAtPoint:imagePoint];
+}
+</code></pre>
+
+<h3>Drawing an UIImage with scaling</h3>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+    // 1. Get UIImage
+    UIImage *myImage = [UIImage imageNamed:@"pumpkin.jpg"];
+
+    // 2. Get CGRect dimension for the entire screen
+    CGRect imageRect =[[UIScreen mainScreen] bounds];
+
+    // 3. Draw inside the CGRect
+    [myImage drawInRect:imageRect];
+}
+</code></pre>
+
+  
+  
+  <footer class="meta">
+    
+
+
+
+	<div class="tags"><a class='category' href='/blog/categories/coregraphics/'>coregraphics</a><a class='category' href='/blog/categories/ios/'>iOS</a><a class='category' href='/blog/categories/quartz2d/'>quartz2d</a></div>
+
+    
+  </footer>
+  
+</div>
+</article>
 
 
 	<article class="post"><header>
@@ -184,14 +426,16 @@ the user does not need to know about &hellip;">
 </ul>
 
 
-<p>  ## How Quartz2D works
-  &ndash; Painter&rsquo;s model:</p>
-
-<pre><code>- each successive drawing operation applies a layer of "paint" to an output "canvas"
-- the drawing can be modified by overlaying more paint
-</code></pre>
+<h2>How Quartz2D works</h2>
 
 <ul>
+<li>Painter&rsquo;s model:
+
+<ul>
+<li>each successive drawing operation applies a layer of &ldquo;paint&rdquo; to an output &ldquo;canvas&rdquo;</li>
+<li>the drawing can be modified by overlaying more paint</li>
+</ul>
+</li>
 <li>The canvas can be:
 
 <ul>
@@ -203,54 +447,60 @@ the user does not need to know about &hellip;">
 </ul>
 
 
-<p>  ## Graphics context (the &ldquo;canvas&rdquo;)
-  CGContextRef is the drawing destination. It can be: Window, Layer, Bitmap, PDF, Printer, etc.
-  &ndash; No need to perform device-specific calculations. Quartz takes care of it.</p>
+<h2>Graphics context (the &ldquo;canvas&rdquo;)</h2>
 
-<pre><code>### Type of contexts
-1. Bitmap graphics context: rectangular array (or raster) of pixels
-2. PDF graphics context
-  - PDF files, unlike bitmaps, may contain more than one page.
-  - Drawing a page from a PDF file on a different device results in the image being optimized for the display characteristics of that device.
-3. Window graphics context
-4. Layer context: `CGLayerRef` is an offscreen drawing destination associated with another graphics context.
-5. PostScript graphics context: for printing
-</code></pre>
+<p>CGContextRef is the drawing destination. It can be: Window, Layer, Bitmap, PDF, Printer, etc.
+&ndash; No need to perform device-specific calculations. Quartz takes care of it.</p>
 
-<p>  ## Graphics state</p>
+<h3>Type of contexts</h3>
 
-<pre><code>### What is a Graphic state?
-  - color
-  - line width
-  - current position
-  - text font size 
+<ol>
+<li>Bitmap graphics context: rectangular array (or raster) of pixels</li>
+<li>PDF graphics context</li>
+<li>PDF files, unlike bitmaps, may contain more than one page.</li>
+<li>Drawing a page from a PDF file on a different device results in the image being optimized for the display characteristics of that device.</li>
+<li>Window graphics context</li>
+<li>Layer context: <code>CGLayerRef</code> is an offscreen drawing destination associated with another graphics context.</li>
+<li>PostScript graphics context: for printing</li>
+</ol>
 
-### Graphics context maintains a stack of Graphic states
-When context is created, the stack is empty. When i save a context, the current state is pushed to the stack
-- `CGContextSaveGState` pushes the current context onto stack
-- `CGContextRestoreGState` pops the stack to restore previous context
-</code></pre>
 
-<p>  ## Quartz2D Coordinate systems</p>
+<h2>Graphics state</h2>
 
-<pre><code>### How Quartz2D achieves Device independent representation
-uses a separate coordinate system (`user space`), mapping it to the coordinate system of the output device (`device space`), using the current transformation matrix (CTM).
-- CTM: affine transform matrix
-  - maps points by applying translation (move), rotation (rotate), and scaling (resize) operations.
-  - to draw a box 45 degrees rotated, rotate CTM first and then draw inside the box.
+<h3>What is a Graphic state?</h3>
 
-### (x,y) point representation
+<ul>
+<li>color</li>
+<li>line width</li>
+<li>current position</li>
+<li>text font size</li>
+</ul>
 
-![Quartz2D coordinate system](https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/quartz_coordinates.gif)
 
-- Origin (0,0): bottom-left corner.    
-  - This is different from some other drawing coordinate systems
-    - UIView: top-left corner is (0,0)
-      - to switch, apply a transform that translates the origin to the upper-left corner of the PDF context and scales the y-coordinate by -1.
-      - However, if you use a UIImage object to wrap a CGImage object you create, no need to modify the CTM.
+<h3>Graphics context maintains a stack of Graphic states</h3>
 
-![Modifying the coordinate system](https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/flipped_coordinates.jpg)
-</code></pre>
+<p>When context is created, the stack is empty. When i save a context, the current state is pushed to the stack
+&ndash; <code>CGContextSaveGState</code> pushes the current context onto stack
+&ndash; <code>CGContextRestoreGState</code> pops the stack to restore previous context</p>
+
+<h2>Quartz2D Coordinate systems</h2>
+
+<h3>How Quartz2D achieves Device independent representation</h3>
+
+<p>uses a separate coordinate system (<code>user space</code>), mapping it to the coordinate system of the output device (<code>device space</code>), using the current transformation matrix (CTM).
+&ndash; CTM: affine transform matrix
+  &ndash; maps points by applying translation (move), rotation (rotate), and scaling (resize) operations.
+  &ndash; to draw a box 45 degrees rotated, rotate CTM first and then draw inside the box.</p>
+
+<h3>Origin (0,0) is bottom-left corner.</h3>
+
+<p><img src="https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/quartz_coordinates.gif" alt="Quartz2D coordinate system" />
+This is different from some other drawing coordinate systems
+&ndash; UIView: top-left corner is (0,0)
+  &ndash; to switch, apply a transform that translates the origin to the upper-left corner of the PDF context and scales the y-coordinate by -1.
+  &ndash; However, if you use a UIImage object to wrap a CGImage object you create, no need to modify the CTM.</p>
+
+<p><img src="https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/flipped_coordinates.jpg" alt="Modifying the coordinate system" /></p>
 
   
   
@@ -638,30 +888,53 @@ git push origin source
 </header>
 <div class="entry-content">
   
-    <p>Take a <strong>CIImage</strong> and apply <strong>CIFilter</strong> to draw on <strong>CIContext</strong></p>
+    <p>Core Image provides a mechanism for <strong>filtering</strong> and <strong>manipulating</strong> images and videos. Think Instagram filter effects.</p>
+
+<h1>Example filters</h1>
+
+<ul>
+<li>cropping</li>
+<li>color effects</li>
+<li>blurring</li>
+<li>warping</li>
+<li>transformations</li>
+<li>gradients</li>
+</ul>
+
+
+<p>Take a <strong>CIImage</strong> and apply <strong>CIFilter</strong> to draw on <strong>CIContext</strong></p>
 
 <p>Example</p>
 
-<pre><code>// 1. Create CIContext
-CIContext *context = [CIContext contextWithOptions:nil];
-
-// 2. Get a CIImage
+<pre><code>// 1. Get a CIImage
 CIImage *image = [CIImage imageWithContentsOfURL:myURL];
 
-// 3. Create a CIFilter
+// 2. Create a CIFilter
 CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
 
-// 4. Apply the filter to the image
+// 3. Apply the filter to the image
 [filter setValue:image forKey:kCIInputImageKey];
 
-// 5. More CIFilter customization
+// 4. More CIFilter customization
 [filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@"InputIntensity"];
 
-// 6. Get the resulting image from CIFilter
+// 5. Get the resulting image from CIFilter
 CIImage *result = [filter valueForKey:kCIOutputImageKey];
+
+// 6. Create CIContext
+CIContext *context = [CIContext contextWithOptions:nil];
 
 // 7. Finally, render CIImage onto Core Graphics Image, which then can be displayed or saved.
 CGImageRef cgImage = [context createCGImage:result fromRect:[result extent];
+
+// 8. Convert CGImage to UIImage, so we can draw it onto view
+UIImage *resultUIImage = [UIImage imageWithCGImage: cgImage];
+
+// 9. Get the CGRect to draw on
+CGRect imageRect =[[UIScreen mainScreen] bounds];
+
+// 10. Draw the UIImage onto the CGRect region
+[resultUIImage drawInRect:imageRect];
 </code></pre>
 
   

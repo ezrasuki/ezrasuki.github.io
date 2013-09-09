@@ -7,8 +7,8 @@
 	<meta name="author" content="Ezrasuki">
 
 	
-	<meta name="description" content="Take a CIImage and apply CIFilter to draw on CIContext Example // 1. Create CIContext
-CIContext *context = [CIContext contextWithOptions:nil]; // 2 &hellip;">
+	<meta name="description" content="Core Image provides a mechanism for filtering and manipulating images and videos. Think Instagram filter effects. Example filters cropping
+color &hellip;">
 	
 
 	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
@@ -54,30 +54,53 @@ CIContext *context = [CIContext contextWithOptions:nil]; // 2 &hellip;">
 </header>
 <div class="entry-content">
   
-    <p>Take a <strong>CIImage</strong> and apply <strong>CIFilter</strong> to draw on <strong>CIContext</strong></p>
+    <p>Core Image provides a mechanism for <strong>filtering</strong> and <strong>manipulating</strong> images and videos. Think Instagram filter effects.</p>
+
+<h1>Example filters</h1>
+
+<ul>
+<li>cropping</li>
+<li>color effects</li>
+<li>blurring</li>
+<li>warping</li>
+<li>transformations</li>
+<li>gradients</li>
+</ul>
+
+
+<p>Take a <strong>CIImage</strong> and apply <strong>CIFilter</strong> to draw on <strong>CIContext</strong></p>
 
 <p>Example</p>
 
-<pre><code>// 1. Create CIContext
-CIContext *context = [CIContext contextWithOptions:nil];
-
-// 2. Get a CIImage
+<pre><code>// 1. Get a CIImage
 CIImage *image = [CIImage imageWithContentsOfURL:myURL];
 
-// 3. Create a CIFilter
+// 2. Create a CIFilter
 CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
 
-// 4. Apply the filter to the image
+// 3. Apply the filter to the image
 [filter setValue:image forKey:kCIInputImageKey];
 
-// 5. More CIFilter customization
+// 4. More CIFilter customization
 [filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@"InputIntensity"];
 
-// 6. Get the resulting image from CIFilter
+// 5. Get the resulting image from CIFilter
 CIImage *result = [filter valueForKey:kCIOutputImageKey];
+
+// 6. Create CIContext
+CIContext *context = [CIContext contextWithOptions:nil];
 
 // 7. Finally, render CIImage onto Core Graphics Image, which then can be displayed or saved.
 CGImageRef cgImage = [context createCGImage:result fromRect:[result extent];
+
+// 8. Convert CGImage to UIImage, so we can draw it onto view
+UIImage *resultUIImage = [UIImage imageWithCGImage: cgImage];
+
+// 9. Get the CGRect to draw on
+CGRect imageRect =[[UIScreen mainScreen] bounds];
+
+// 10. Draw the UIImage onto the CGRect region
+[resultUIImage drawInRect:imageRect];
 </code></pre>
 
     

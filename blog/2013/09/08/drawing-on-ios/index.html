@@ -85,14 +85,16 @@ Typically used on UIView &hellip;">
 </ul>
 
 
-<p>  ## How Quartz2D works
-  &ndash; Painter&rsquo;s model:</p>
-
-<pre><code>- each successive drawing operation applies a layer of "paint" to an output "canvas"
-- the drawing can be modified by overlaying more paint
-</code></pre>
+<h2>How Quartz2D works</h2>
 
 <ul>
+<li>Painter&rsquo;s model:
+
+<ul>
+<li>each successive drawing operation applies a layer of &ldquo;paint&rdquo; to an output &ldquo;canvas&rdquo;</li>
+<li>the drawing can be modified by overlaying more paint</li>
+</ul>
+</li>
 <li>The canvas can be:
 
 <ul>
@@ -104,54 +106,60 @@ Typically used on UIView &hellip;">
 </ul>
 
 
-<p>  ## Graphics context (the &ldquo;canvas&rdquo;)
-  CGContextRef is the drawing destination. It can be: Window, Layer, Bitmap, PDF, Printer, etc.
-  &ndash; No need to perform device-specific calculations. Quartz takes care of it.</p>
+<h2>Graphics context (the &ldquo;canvas&rdquo;)</h2>
 
-<pre><code>### Type of contexts
-1. Bitmap graphics context: rectangular array (or raster) of pixels
-2. PDF graphics context
-  - PDF files, unlike bitmaps, may contain more than one page.
-  - Drawing a page from a PDF file on a different device results in the image being optimized for the display characteristics of that device.
-3. Window graphics context
-4. Layer context: `CGLayerRef` is an offscreen drawing destination associated with another graphics context.
-5. PostScript graphics context: for printing
-</code></pre>
+<p>CGContextRef is the drawing destination. It can be: Window, Layer, Bitmap, PDF, Printer, etc.
+&ndash; No need to perform device-specific calculations. Quartz takes care of it.</p>
 
-<p>  ## Graphics state</p>
+<h3>Type of contexts</h3>
 
-<pre><code>### What is a Graphic state?
-  - color
-  - line width
-  - current position
-  - text font size 
+<ol>
+<li>Bitmap graphics context: rectangular array (or raster) of pixels</li>
+<li>PDF graphics context</li>
+<li>PDF files, unlike bitmaps, may contain more than one page.</li>
+<li>Drawing a page from a PDF file on a different device results in the image being optimized for the display characteristics of that device.</li>
+<li>Window graphics context</li>
+<li>Layer context: <code>CGLayerRef</code> is an offscreen drawing destination associated with another graphics context.</li>
+<li>PostScript graphics context: for printing</li>
+</ol>
 
-### Graphics context maintains a stack of Graphic states
-When context is created, the stack is empty. When i save a context, the current state is pushed to the stack
-- `CGContextSaveGState` pushes the current context onto stack
-- `CGContextRestoreGState` pops the stack to restore previous context
-</code></pre>
 
-<p>  ## Quartz2D Coordinate systems</p>
+<h2>Graphics state</h2>
 
-<pre><code>### How Quartz2D achieves Device independent representation
-uses a separate coordinate system (`user space`), mapping it to the coordinate system of the output device (`device space`), using the current transformation matrix (CTM).
-- CTM: affine transform matrix
-  - maps points by applying translation (move), rotation (rotate), and scaling (resize) operations.
-  - to draw a box 45 degrees rotated, rotate CTM first and then draw inside the box.
+<h3>What is a Graphic state?</h3>
 
-### (x,y) point representation
+<ul>
+<li>color</li>
+<li>line width</li>
+<li>current position</li>
+<li>text font size</li>
+</ul>
 
-![Quartz2D coordinate system](https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/quartz_coordinates.gif)
 
-- Origin (0,0): bottom-left corner.    
-  - This is different from some other drawing coordinate systems
-    - UIView: top-left corner is (0,0)
-      - to switch, apply a transform that translates the origin to the upper-left corner of the PDF context and scales the y-coordinate by -1.
-      - However, if you use a UIImage object to wrap a CGImage object you create, no need to modify the CTM.
+<h3>Graphics context maintains a stack of Graphic states</h3>
 
-![Modifying the coordinate system](https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/flipped_coordinates.jpg)
-</code></pre>
+<p>When context is created, the stack is empty. When i save a context, the current state is pushed to the stack
+&ndash; <code>CGContextSaveGState</code> pushes the current context onto stack
+&ndash; <code>CGContextRestoreGState</code> pops the stack to restore previous context</p>
+
+<h2>Quartz2D Coordinate systems</h2>
+
+<h3>How Quartz2D achieves Device independent representation</h3>
+
+<p>uses a separate coordinate system (<code>user space</code>), mapping it to the coordinate system of the output device (<code>device space</code>), using the current transformation matrix (CTM).
+&ndash; CTM: affine transform matrix
+  &ndash; maps points by applying translation (move), rotation (rotate), and scaling (resize) operations.
+  &ndash; to draw a box 45 degrees rotated, rotate CTM first and then draw inside the box.</p>
+
+<h3>Origin (0,0) is bottom-left corner.</h3>
+
+<p><img src="https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/quartz_coordinates.gif" alt="Quartz2D coordinate system" />
+This is different from some other drawing coordinate systems
+&ndash; UIView: top-left corner is (0,0)
+  &ndash; to switch, apply a transform that translates the origin to the upper-left corner of the PDF context and scales the y-coordinate by -1.
+  &ndash; However, if you use a UIImage object to wrap a CGImage object you create, no need to modify the CTM.</p>
+
+<p><img src="https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/flipped_coordinates.jpg" alt="Modifying the coordinate system" /></p>
 
     
       <div class="sharing">
