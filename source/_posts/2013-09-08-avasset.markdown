@@ -1,0 +1,62 @@
+---
+layout: post
+title: "AVAsset"
+date: 2013-09-08 08:13
+comments: true
+categories: 
+---
+# Facts about AVAsset
+* Made up of "Tracks" : Could be audio or video track.
+* Provides information about the collection of audio tracks and video tracks as a whole, including title, duration, size, etc.
+* Not tied to any file format
+* Initializaing an asset doesn't mean it's ready to use. Therefore use a block for asynchronous usage.
+
+# A. Preparing AVAsset
+## 1. Typical Scenario
+    // 1. Get File Manager
+    NSFileManager *filemgr = [NSFileManager defaultManager];
+
+    // 2. Get vid.mov inside tmp directory
+    NSString *fileName = [NSTemporaryDirectory() stringByAppendingPathComponent:@"vid.mov"];
+
+    // 3. Get a NSURL version of the filename
+    NSURL *url = [NSURL fileURLWithPath: fileName];
+  
+    // 4. Create an asset with the URL
+    AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
+
+## 2. Initialize for precise timing
+For just playing, probably no need for passing the option. However if I want to add the asset to an AVMutableComposition, I may need to.
+    NSDictionary *options = @{ AVURLAssetPreferPreciseDurationAndTimingKey : @YES };
+    AVURLAsset *anAssetToUseInAComposition = [[AVURLAsset alloc] initWithURL:url options:options];
+
+# B. Using AVAsset
+Running `initWithURL:options:` does not mean that the asset is prepared to be accessed. Therefore must use `loadValuesAsynchronouslyForKeys:completionHandler:` to access the asset asynchronously.
+## 1. Accessing the Asset's duration
+    // ..
+    // Continued from above...
+    AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
+    NSArray *keys = @[@"duration"];
+    [asset loadValuesAsynchronouslyForKeys:keys completionHandler:^() {
+        // This block is run after the "duration" value is loaded
+        NSError *error = nil;
+        AVKeyValueStatus tracksStatus = [asset statusOfValueForKey:@"duration" error:&error];
+        switch (tracksStatus) {
+            case AVKeyValueStatusLoaded:
+                [self updateUserInterfaceForDuration];
+                break;
+            case AVKeyValueStatusFailed:
+                [self reportError:error forAsset:asset];
+                break;
+            case AVKeyValueStatusCancelled:
+                // Do whatever is appropriate for cancelation.
+                break;
+       }
+    }];
+
+## 2. Getting an image capture
+    AVAsset anAsset = <#Get an asset#>;
+    if ([[anAsset tracksWithMediaType:AVMediaTypeVideo] count] > 0) {
+        AVAssetImageGenerator *imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:anAsset];
+        // Implementation continues...
+    }
