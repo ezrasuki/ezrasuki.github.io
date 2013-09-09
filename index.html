@@ -346,7 +346,77 @@ uses a separate coordinate system (`user space`), mapping it to the coordinate s
 </header>
 <div class="entry-content">
   
-    
+    <h1>Facts about AVAsset</h1>
+
+<ul>
+<li>Made up of &ldquo;Tracks&rdquo; : Could be audio or video track.</li>
+<li>Provides information about the collection of audio tracks and video tracks as a whole, including title, duration, size, etc.</li>
+<li>Not tied to any file format</li>
+<li>Initializaing an asset doesn&rsquo;t mean it&rsquo;s ready to use. Therefore use a block for asynchronous usage.</li>
+</ul>
+
+
+<h1>A. Preparing AVAsset</h1>
+
+<h2>1. Typical Scenario</h2>
+
+<pre><code>// 1. Get File Manager
+NSFileManager *filemgr = [NSFileManager defaultManager];
+
+// 2. Get vid.mov inside tmp directory
+NSString *fileName = [NSTemporaryDirectory() stringByAppendingPathComponent:@"vid.mov"];
+
+// 3. Get a NSURL version of the filename
+NSURL *url = [NSURL fileURLWithPath: fileName];
+
+// 4. Create an asset with the URL
+AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
+</code></pre>
+
+<h2>2. Initialize for precise timing</h2>
+
+<p>For just playing, probably no need for passing the option. However if I want to add the asset to an AVMutableComposition, I may need to.</p>
+
+<pre><code>NSDictionary *options = @{ AVURLAssetPreferPreciseDurationAndTimingKey : @YES };
+AVURLAsset *anAssetToUseInAComposition = [[AVURLAsset alloc] initWithURL:url options:options];
+</code></pre>
+
+<h1>B. Using AVAsset</h1>
+
+<p>Running <code>initWithURL:options:</code> does not mean that the asset is prepared to be accessed. Therefore must use <code>loadValuesAsynchronouslyForKeys:completionHandler:</code> to access the asset asynchronously.</p>
+
+<h2>1. Accessing the Asset&rsquo;s duration</h2>
+
+<pre><code>// ..
+// Continued from above...
+AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:url options:nil];
+NSArray *keys = @[@"duration"];
+[asset loadValuesAsynchronouslyForKeys:keys completionHandler:^() {
+    // This block is run after the "duration" value is loaded
+    NSError *error = nil;
+    AVKeyValueStatus tracksStatus = [asset statusOfValueForKey:@"duration" error:&amp;error];
+    switch (tracksStatus) {
+        case AVKeyValueStatusLoaded:
+            [self updateUserInterfaceForDuration];
+            break;
+        case AVKeyValueStatusFailed:
+            [self reportError:error forAsset:asset];
+            break;
+        case AVKeyValueStatusCancelled:
+            // Do whatever is appropriate for cancelation.
+            break;
+   }
+}];
+</code></pre>
+
+<h2>2. Getting an image capture</h2>
+
+<pre><code>AVAsset anAsset = &lt;#Get an asset#&gt;;
+if ([[anAsset tracksWithMediaType:AVMediaTypeVideo] count] &gt; 0) {
+    AVAssetImageGenerator *imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:anAsset];
+    // Implementation continues...
+}
+</code></pre>
 
   
   
