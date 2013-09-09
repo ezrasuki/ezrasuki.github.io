@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: iOS | ezrasuki]]></title>
-  <link href="http://ezrasuki.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <title><![CDATA[Category: coregraphics | ezrasuki]]></title>
+  <link href="http://ezrasuki.github.io/blog/categories/coregraphics/atom.xml" rel="self"/>
   <link href="http://ezrasuki.github.io/"/>
   <updated>2013-09-08T20:17:10-04:00</updated>
   <id>http://ezrasuki.github.io/</id>
@@ -12,71 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Opaque Types in Objective-c]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/08/opaque-types-in-objective-c/"/>
-    <updated>2013-09-08T18:05:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/08/opaque-types-in-objective-c</id>
-    <content type="html"><![CDATA[<h1>What is an Opaque type?</h1>
-
-<ul>
-<li>a type that wraps lower-level types</li>
-<li>used when
-
-<ul>
-<li>the underlying implementation is complex</li>
-<li>the user does not need to know about the inner workings.</li>
-</ul>
-</li>
-<li>The individual fields of an object based on an opaque type are hidden from clients, but the type’s functions offer access to most values of these fields</li>
-</ul>
-
-
-<h1>A. Opaque types in Core Foundation</h1>
-
-<p>Core foundation has many &ldquo;opaque types'.</p>
-
-<h2>What is Core Foundation?</h2>
-
-<p>Core Foundation is a library with a set of programming interfaces conceptually derived from the Objective-C-based Foundation framework but implemented in the C language.</p>
-
-<h3>1. Makes it possible for the different frameworks and libraries on OS X to share code and data.</h3>
-
-<p>Applications, libraries, and frameworks can define C routines that incorporate Core Foundation types in their external interfaces; they can thus communicate data—as Core Foundation objects—to each other through these interfaces.</p>
-
-<h3>2. Makes some degree of operating-system independence possible</h3>
-
-<p>Some Core Foundation types and functions are abstractions of things that have specific implementations on different operating systems.</p>
-
-<h3>3. Supports internationalization with Unicode strings</h3>
-
-<p>Uses CFString, instances of which represent an array of 16-bit Unicode characters. Flexible enough to hold megabytes worth of characters and yet simple and low-level enough for use in all programming interfaces communicating character data</p>
-
-<h2>Opaque type examples in Core Foundation</h2>
-
-<ul>
-<li>CFString: an opaque type that &ldquo;represents&rdquo; and operates on Unicode character arrays.</li>
-<li>CFArray: an opaque type for indexed-based collection functionality.</li>
-</ul>
-
-
-<h1>B. Opaque types in Quartz2D</h1>
-
-<ul>
-<li>CGPathRef: vector graphics</li>
-<li>CGImageRef: bitmap images</li>
-<li>CGLayerRef: drawling layer that can be used for repeated drawing and offscreen drawing</li>
-<li>CGPatternRef: repeated drawing using patterns</li>
-<li>CGShadingRef: for gradients</li>
-<li>CGGradientRef: for gradients</li>
-<li>CGColorRef: used for colors in Quartz2D</li>
-<li>CGImageSourceRef: move data into and out of Quartz</li>
-<li>CGFontRef: to draw text</li>
-</ul>
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Drawing on iOS]]></title>
@@ -205,51 +140,6 @@ uses a separate coordinate system (`user space`), mapping it to the coordinate s
 <li>Can cut out areas of the image</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AVFoundation Overview]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview/"/>
-    <updated>2013-09-08T00:13:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview</id>
-    <content type="html"><![CDATA[<ol>
-<li>AVAsset</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Core Image Basics]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/07/core-image/"/>
-    <updated>2013-09-07T23:56:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/07/core-image</id>
-    <content type="html"><![CDATA[<p>Take a <strong>CIImage</strong> and apply <strong>CIFilter</strong> to draw on <strong>CIContext</strong></p>
-
-<p>Example</p>
-
-<pre><code>// 1. Create CIContext
-CIContext *context = [CIContext contextWithOptions:nil];
-
-// 2. Get a CIImage
-CIImage *image = [CIImage imageWithContentsOfURL:myURL];
-
-// 3. Create a CIFilter
-CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
-
-// 4. Apply the filter to the image
-[filter setValue:image forKey:kCIInputImageKey];
-
-// 5. More CIFilter customization
-[filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@"InputIntensity"];
-
-// 6. Get the resulting image from CIFilter
-CIImage *result = [filter valueForKey:kCIOutputImageKey];
-
-// 7. Finally, render CIImage onto Core Graphics Image, which then can be displayed or saved.
-CGImageRef cgImage = [context createCGImage:result fromRect:[result extent];
-</code></pre>
 ]]></content>
   </entry>
   

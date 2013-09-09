@@ -1,0 +1,217 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Drawing on iOS | ezrasuki</title>
+	<meta name="author" content="Ezrasuki">
+
+	
+	<meta name="description" content="Quartz2D: Two dimensional graphics drawing engine that makes up the bulk of the UIKit Core Graphics Framework.
+C based API
+Typically used on UIView &hellip;">
+	
+
+	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	
+
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><nav><h1><a href = "/">ezrasuki</a></h1>
+<!--
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+-->
+</nav>
+</header>
+	<div id="content" class="inner"><article class="post"><header>
+  
+  <h1 class="title">Drawing on iOS</h1>
+  
+  
+
+
+
+
+
+
+
+
+	
+		<time datetime="2013-09-08T15:20:00-04:00">
+			<span class="day"> 8</span><span class="month">Sep</span>
+		</time>
+	
+
+</header>
+<div class="entry-content">
+  
+    <h1>Quartz2D:</h1>
+
+<ul>
+<li>Two dimensional graphics drawing engine that makes up the bulk of the UIKit <strong>Core Graphics</strong> Framework.</li>
+<li>C based API</li>
+<li>Typically used on UIView object</li>
+<li>Features
+
+<ul>
+<li>path-based drawing</li>
+<li>painting with transparency</li>
+<li>shading, drawing shadows</li>
+<li>transparency layers</li>
+<li>color management</li>
+<li>anti-aliased rendering</li>
+<li>PDF document generation</li>
+<li>PDF metadata access</li>
+</ul>
+</li>
+<li>Works with other technologies like
+
+<ul>
+<li>Core Animation</li>
+<li>OpenGL ES</li>
+<li>UIKit</li>
+</ul>
+</li>
+</ul>
+
+
+<p>  ## How Quartz2D works
+  &ndash; Painter&rsquo;s model:</p>
+
+<pre><code>- each successive drawing operation applies a layer of "paint" to an output "canvas"
+- the drawing can be modified by overlaying more paint
+</code></pre>
+
+<ul>
+<li>The canvas can be:
+
+<ul>
+<li>PDF</li>
+<li>Bitmap image</li>
+<li>Printer</li>
+</ul>
+</li>
+</ul>
+
+
+<p>  ## Graphics context (the &ldquo;canvas&rdquo;)
+  CGContextRef is the drawing destination. It can be: Window, Layer, Bitmap, PDF, Printer, etc.
+  &ndash; No need to perform device-specific calculations. Quartz takes care of it.</p>
+
+<pre><code>### Type of contexts
+1. Bitmap graphics context: rectangular array (or raster) of pixels
+2. PDF graphics context
+  - PDF files, unlike bitmaps, may contain more than one page.
+  - Drawing a page from a PDF file on a different device results in the image being optimized for the display characteristics of that device.
+3. Window graphics context
+4. Layer context: `CGLayerRef` is an offscreen drawing destination associated with another graphics context.
+5. PostScript graphics context: for printing
+</code></pre>
+
+<p>  ## Graphics state</p>
+
+<pre><code>### What is a Graphic state?
+  - color
+  - line width
+  - current position
+  - text font size 
+
+### Graphics context maintains a stack of Graphic states
+When context is created, the stack is empty. When i save a context, the current state is pushed to the stack
+- `CGContextSaveGState` pushes the current context onto stack
+- `CGContextRestoreGState` pops the stack to restore previous context
+</code></pre>
+
+<p>  ## Quartz2D Coordinate systems</p>
+
+<pre><code>### How Quartz2D achieves Device independent representation
+uses a separate coordinate system (`user space`), mapping it to the coordinate system of the output device (`device space`), using the current transformation matrix (CTM).
+- CTM: affine transform matrix
+  - maps points by applying translation (move), rotation (rotate), and scaling (resize) operations.
+  - to draw a box 45 degrees rotated, rotate CTM first and then draw inside the box.
+
+### (x,y) point representation
+
+![Quartz2D coordinate system](https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/quartz_coordinates.gif)
+
+- Origin (0,0): bottom-left corner.    
+  - This is different from some other drawing coordinate systems
+    - UIView: top-left corner is (0,0)
+      - to switch, apply a transform that translates the origin to the upper-left corner of the PDF context and scales the y-coordinate by -1.
+      - However, if you use a UIImage object to wrap a CGImage object you create, no need to modify the CTM.
+
+![Modifying the coordinate system](https://developer.apple.com/library/ios/DOCUMENTATION/GraphicsImaging/Conceptual/drawingwithquartz2d/Art/flipped_coordinates.jpg)
+</code></pre>
+
+    
+      <div class="sharing">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4daee9911f9dfcb4"></script>
+</div>
+    
+  
+  
+  <footer class="meta">
+    
+
+
+
+	<div class="tags"><a class='category' href='/blog/categories/coregraphics/'>coregraphics</a><a class='category' href='/blog/categories/coreimage/'>coreimage</a><a class='category' href='/blog/categories/ios/'>iOS</a><a class='category' href='/blog/categories/quartz2d/'>quartz2d</a></div>
+
+    
+  </footer>
+  
+</div>
+</article></div>
+	<footer id="footer" class="inner"><div class="social alignright">
+	
+	
+	
+	
+	
+	<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+</div>
+<p>&copy; 2013 Ezrasuki</p>
+<div class="clearfix"></div></footer>
+	<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+	(function($){
+		$('.entry-content').each(function(i){
+			var _i = i;
+			$(this).find('img').each(function(){
+				var alt = $(this).attr('alt');
+
+				if (alt == '' || typeof alt == 'undefined'){
+					$(this).wrap('<a href="'+$(this).attr('src')+'" class="fancybox" rel="gallery'+_i+'" />');
+				} else {
+					$(this).after('<span class="caption">'+alt+'</span>').wrap('<a href="'+$(this).attr('src')+'" class="fancybox" title="'+alt+'" rel="gallery'+_i+'" />');
+				}
+			});
+		});
+		$('.fancybox').fancybox();
+	})(jQuery);
+</script>
+
+
+
+
+
+</body>
+</html>

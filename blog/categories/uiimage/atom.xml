@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: uiimage | ezrasuki]]></title>
+  <link href="http://ezrasuki.github.io/blog/categories/uiimage/atom.xml" rel="self"/>
+  <link href="http://ezrasuki.github.io/"/>
+  <updated>2013-09-08T20:17:10-04:00</updated>
+  <id>http://ezrasuki.github.io/</id>
+  <author>
+    <name><![CDATA[Ezrasuki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CGImage vs. CIImage vs. UIImage]]></title>
+    <link href="http://ezrasuki.github.io/blog/2013/09/08/cgimage-vs-ciimage-vs-uiimage/"/>
+    <updated>2013-09-08T08:35:00-04:00</updated>
+    <id>http://ezrasuki.github.io/blog/2013/09/08/cgimage-vs-ciimage-vs-uiimage</id>
+    <content type="html"><![CDATA[<h2>UIImage</h2>
+
+<ul>
+<li>From UIKit</li>
+<li>a high level way of displaying image data.</li>
+<li>Not mutable</li>
+<li>Just displaying the image</li>
+</ul>
+
+
+<h2>CGImage</h2>
+
+<ul>
+<li>From Core Graphics</li>
+<li>Can cut out areas of the image</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
