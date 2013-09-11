@@ -4,7 +4,7 @@
   <title><![CDATA[Category: learn | ezrasuki]]></title>
   <link href="http://ezrasuki.github.io/blog/categories/learn/atom.xml" rel="self"/>
   <link href="http://ezrasuki.github.io/"/>
-  <updated>2013-09-10T21:11:40-04:00</updated>
+  <updated>2013-09-10T23:59:40-04:00</updated>
   <id>http://ezrasuki.github.io/</id>
   <author>
     <name><![CDATA[Ezrasuki]]></name>
@@ -153,7 +153,9 @@ git push origin source
     <link href="http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview/"/>
     <updated>2013-09-08T00:13:00-04:00</updated>
     <id>http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview</id>
-    <content type="html"><![CDATA[<ol>
+    <content type="html"><![CDATA[<h1>What is AVFoundation?</h1>
+
+<ol>
 <li>AVAsset</li>
 </ol>
 
