@@ -4,7 +4,7 @@
   <title><![CDATA[Category: avasset | ezrasuki]]></title>
   <link href="http://ezrasuki.github.io/blog/categories/avasset/atom.xml" rel="self"/>
   <link href="http://ezrasuki.github.io/"/>
-  <updated>2013-09-10T23:59:40-04:00</updated>
+  <updated>2013-09-11T00:01:53-04:00</updated>
   <id>http://ezrasuki.github.io/</id>
   <author>
     <name><![CDATA[Ezrasuki]]></name>
@@ -18,22 +18,22 @@
     <link href="http://ezrasuki.github.io/blog/2013/09/10/how-is-avasset-structured/"/>
     <updated>2013-09-10T23:33:00-04:00</updated>
     <id>http://ezrasuki.github.io/blog/2013/09/10/how-is-avasset-structured</id>
-    <content type="html"><![CDATA[<p><img src="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png" alt="Types of AVAsset" /></p>
-
-<h1>Types of AVAsset</h1>
+    <content type="html"><![CDATA[<h1>Types of AVAsset</h1>
 
 <ol>
-<li>AVComposition: new media by composing multiple media</li>
-<li>AVURLAsset: media at a given URL</li>
+<li><code>AVComposition</code>: new media by composing multiple media</li>
+<li><code>AVURLAsset</code>: media at a given URL
+<img src="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png" alt="Types of AVAsset" /></li>
 </ol>
 
 
 <h1>AVAsset components</h1>
 
 <ol>
-<li>AVMetaDataItem: metadata about the asset as a whole, such as duration, title, size, etc.</li>
-<li>AVAssetTrack: separate tracks that add up to the entire asset, such as video, audio, etc.</li>
-<li><code>AVAssetTrack</code> in turn can be composed of <code>AVAssetTrackSegment</code>, which is a mapping from a source to the current track timeline.</li>
+<li><code>AVMetaDataItem</code>: metadata about the asset as a whole, such as duration, title, size, etc.</li>
+<li><code>AVAssetTrack</code>: separate tracks that add up to the entire asset, such as video, audio, etc.</li>
+<li><code>AVAssetTrack</code> in turn can be composed of <code>AVAssetTrackSegment</code>, which is a mapping from a source to the current track timeline.
+<img src="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetAndTracks_2x.png" alt="AVAsset components" /></li>
 </ol>
 
 ]]></content>
