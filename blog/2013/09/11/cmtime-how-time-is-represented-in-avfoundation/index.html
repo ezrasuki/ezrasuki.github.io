@@ -1,0 +1,194 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CMTime: How time is represented in AVFoundation | ezrasuki</title>
+	<meta name="author" content="Ezrasuki">
+
+	
+	<meta name="description" content="CMTime How is CMTime structured? CMTime is a C structure that represents time using:
+1. Numerator (int64_t)
+2. Denominator (int32_t) // time1 and &hellip;">
+	
+
+	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	
+
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><nav><h1><a href = "/">ezrasuki</a></h1>
+<!--
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+-->
+</nav>
+</header>
+	<div id="content" class="inner"><article class="post"><header>
+  
+  <h1 class="title">CMTime: How Time Is Represented in AVFoundation</h1>
+  
+  
+
+
+
+
+
+
+
+
+	
+		<time datetime="2013-09-11T00:02:00-04:00">
+			<span class="day">11</span><span class="month">Sep</span>
+		</time>
+	
+
+</header>
+<div class="entry-content">
+  
+    <h1>CMTime</h1>
+
+<h2>How is CMTime structured?</h2>
+
+<p>CMTime is a C structure that represents time using:
+1. Numerator (int64_t)
+2. Denominator (int32_t)</p>
+
+<pre><code>// time1 and time2 both represent 100 seconds, but using different timescales.
+CMTime time1 = CMTimeMake(200, 2); // 200 half-seconds
+CMTime time2 = CMTimeMake(400, 4); // 400 quarter-seconds
+</code></pre>
+
+<h2>Special CMTime constants</h2>
+
+<ul>
+<li><code>kCMTimeZero</code></li>
+<li><code>kCMTimeInvalid</code></li>
+<li><code>kCMTimePositiveInfinity</code></li>
+<li><code>kCMTimeNegativeInfinity</code></li>
+</ul>
+
+
+<h2>Special CMTime constant testers</h2>
+
+<ul>
+<li><code>CMTIME_IS_INVALID</code></li>
+<li><code>CMTIME_IS_POSITIVE_INFINITY</code></li>
+<li><p><code>CMTIME_IS_INDEFINITE</code></p>
+
+<p>  CMTime myTime = CMTimeMake(200, 2);
+  if (CMTIME_IS_INVALID(myTime)) {
+    NSLog(@&ldquo;Error&rdquo;);
+  }</p></li>
+</ul>
+
+
+<h1>CMTimeRange</h1>
+
+<h2>How is CMTimeRange structured?</h2>
+
+<ol>
+<li>Start time (CMTime)</li>
+<li><p>Duration (CMTime)</p>
+
+<p> CMTime time1 = CMTimeMake(200, 2);
+ CMTime time2 = CMTimeMake(400, 4);
+ CMTimeRange range = CMTimeRangeMake(time1, time2)</p></li>
+</ol>
+
+
+<h2>Testing for inclusion</h2>
+
+<pre><code>CMTimeRangeContainsTimeRange(range, CMTimeRangeGetEnd(range));
+// This is false
+</code></pre>
+
+<h2>CMTimeRange special constants</h2>
+
+<ul>
+<li><code>kCMTimeRangeZero</code></li>
+<li><code>kCMTimeRangeInvalid</code></li>
+</ul>
+
+
+<h2>CMTimeRange special constant testers</h2>
+
+<ul>
+<li><code>CMTIMERANGE_IS_VALID</code></li>
+<li><code>CMTIMERANGE_IS_INVALID</code></li>
+<li><code>CMTIMERANGE_IS_EMPTY</code></li>
+<li><code>CMTIMERANGE_IS_EMPTY</code></li>
+</ul>
+
+
+    
+      <div class="sharing">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4daee9911f9dfcb4"></script>
+</div>
+    
+  
+  
+  <footer class="meta">
+    
+
+
+
+	<div class="tags"><a class='category' href='/blog/categories/avasset/'>avasset</a><a class='category' href='/blog/categories/avfoundation/'>avfoundation</a><a class='category' href='/blog/categories/cmtime/'>cmtime</a><a class='category' href='/blog/categories/ios/'>iOS</a></div>
+
+    
+  </footer>
+  
+</div>
+</article></div>
+	<footer id="footer" class="inner"><div class="social alignright">
+	
+	
+	
+	
+	
+	<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+</div>
+<p>&copy; 2013 Ezrasuki</p>
+<div class="clearfix"></div></footer>
+	<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+	(function($){
+		$('.entry-content').each(function(i){
+			var _i = i;
+			$(this).find('img').each(function(){
+				var alt = $(this).attr('alt');
+
+				if (alt == '' || typeof alt == 'undefined'){
+					$(this).wrap('<a href="'+$(this).attr('src')+'" class="fancybox" rel="gallery'+_i+'" />');
+				} else {
+					$(this).after('<span class="caption">'+alt+'</span>').wrap('<a href="'+$(this).attr('src')+'" class="fancybox" title="'+alt+'" rel="gallery'+_i+'" />');
+				}
+			});
+		});
+		$('.fancybox').fancybox();
+	})(jQuery);
+</script>
+
+
+
+
+
+</body>
+</html>

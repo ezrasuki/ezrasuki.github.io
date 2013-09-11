@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: avfoundation | ezrasuki]]></title>
-  <link href="http://ezrasuki.github.io/blog/categories/avfoundation/atom.xml" rel="self"/>
+  <title><![CDATA[Category: cmtime | ezrasuki]]></title>
+  <link href="http://ezrasuki.github.io/blog/categories/cmtime/atom.xml" rel="self"/>
   <link href="http://ezrasuki.github.io/"/>
   <updated>2013-09-11T00:22:24-04:00</updated>
   <id>http://ezrasuki.github.io/</id>
@@ -91,48 +91,6 @@ CMTime time2 = CMTimeMake(400, 4); // 400 quarter-seconds
 <li><code>CMTIMERANGE_IS_EMPTY</code></li>
 <li><code>CMTIMERANGE_IS_EMPTY</code></li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How is AVAsset structured?]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/10/how-is-avasset-structured/"/>
-    <updated>2013-09-10T23:33:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/10/how-is-avasset-structured</id>
-    <content type="html"><![CDATA[<h1>Types of AVAsset</h1>
-
-<ol>
-<li><code>AVComposition</code>: new media by composing multiple media</li>
-<li><code>AVURLAsset</code>: media at a given URL</li>
-</ol>
-
-
-<p><img src="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetHierarchy_2x.png" alt="Types of AVAsset" /></p>
-
-<h1>AVAsset components</h1>
-
-<ol>
-<li><code>AVMetaDataItem</code>: metadata about the asset as a whole, such as duration, title, size, etc.</li>
-<li><code>AVAssetTrack</code>: separate tracks that add up to the entire asset, such as video, audio, etc.</li>
-<li><code>AVAssetTrack</code> in turn can be composed of <code>AVAssetTrackSegment</code>, which is a mapping from a source to the current track timeline.</li>
-</ol>
-
-
-<p><img src="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Art/avassetAndTracks_2x.png" alt="AVAsset components" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AVFoundation Overview]]></title>
-    <link href="http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview/"/>
-    <updated>2013-09-08T00:13:00-04:00</updated>
-    <id>http://ezrasuki.github.io/blog/2013/09/08/avfoundation-overview</id>
-    <content type="html"><![CDATA[<h1>What is AVFoundation?</h1>
-
-<ol>
-<li>AVAsset</li>
-</ol>
 
 ]]></content>
   </entry>
