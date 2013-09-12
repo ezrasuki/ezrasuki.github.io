@@ -7,9 +7,8 @@
 	<meta name="author" content="Ezrasuki">
 
 	
-	<meta name="description" content="CMTime How is CMTime structured? CMTime is a C structure that represents time using:
-1. Numerator (int64_t)
-2. Denominator (int32_t) // time1 and &hellip;">
+	<meta name="description" content="CMTime How is CMTime structured? CMTime is a C structure that represents time using Numerator (int64_t)
+Denominator (int32_t) Example // time1 and &hellip;">
 	
 
 	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
@@ -59,9 +58,15 @@
 
 <h2>How is CMTime structured?</h2>
 
-<p>CMTime is a C structure that represents time using:
-1. Numerator (int64_t)
-2. Denominator (int32_t)</p>
+<p>CMTime is a C structure that represents time using</p>
+
+<ol>
+<li>Numerator (int64_t)</li>
+<li>Denominator (int32_t)</li>
+</ol>
+
+
+<p>Example</p>
 
 <pre><code>// time1 and time2 both represent 100 seconds, but using different timescales.
 CMTime time1 = CMTimeMake(200, 2); // 200 half-seconds
@@ -97,14 +102,17 @@ CMTime time2 = CMTimeMake(400, 4); // 400 quarter-seconds
 <h2>How is CMTimeRange structured?</h2>
 
 <ol>
-<li>Start time (CMTime)</li>
-<li><p>Duration (CMTime)</p>
-
-<p> CMTime time1 = CMTimeMake(200, 2);
- CMTime time2 = CMTimeMake(400, 4);
- CMTimeRange range = CMTimeRangeMake(time1, time2)</p></li>
+<li> Start time (CMTime)</li>
+<li> Duration (CMTime)</li>
 </ol>
 
+
+<p>Example</p>
+
+<pre><code>CMTime time1 = CMTimeMake(200, 2);
+CMTime time2 = CMTimeMake(400, 4);
+CMTimeRange range = CMTimeRangeMake(time1, time2)
+</code></pre>
 
 <h2>Testing for inclusion</h2>
 

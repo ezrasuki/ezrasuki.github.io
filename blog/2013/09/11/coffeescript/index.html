@@ -1,0 +1,529 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Coffeescript | ezrasuki</title>
+	<meta name="author" content="Ezrasuki">
+
+	
+	<meta name="description" content="Basic rules Uses whitespace to delimit blocks of code
+{} Instead, use indentation.
+() implicit call wraps forward to the end. console.log sys. &hellip;">
+	
+
+	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	
+
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><nav><h1><a href = "/">ezrasuki</a></h1>
+<!--
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+-->
+</nav>
+</header>
+	<div id="content" class="inner"><article class="post"><header>
+  
+  <h1 class="title">Coffeescript</h1>
+  
+  
+
+
+
+
+
+
+
+
+	
+		<time datetime="2013-09-11T21:13:00-04:00">
+			<span class="day">11</span><span class="month">Sep</span>
+		</time>
+	
+
+</header>
+<div class="entry-content">
+  
+    <h1>Basic rules</h1>
+
+<ul>
+<li>Uses whitespace to delimit blocks of code</li>
+<li><code>{}</code> Instead, use indentation.</li>
+<li><code>()</code> implicit call wraps forward to the end.
+
+<ul>
+<li><code>console.log sys.inspect object</code> is same as <code>console.log(sys.inspect(object));</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>1. Function</h2>
+
+<h3>Function with an argument</h3>
+
+<pre><code>square = (x) -&gt; x*x
+</code></pre>
+
+<h3>Function without an argument</h3>
+
+<pre><code>helloWorld = -&gt; console.log "Hello World"
+</code></pre>
+
+<h3>Implicit return</h3>
+
+<pre><code># returns the last command
+do = (action) -&gt;
+    "Let's do #{action}"
+</code></pre>
+
+<h3>Default argument</h3>
+
+<pre><code># default argument is 'nothing'
+do = (action = 'nothing') -&gt; 
+    "Let's do #{action}"
+</code></pre>
+
+<h2>2. Arrays</h2>
+
+<h3>Same syntax as javascript</h3>
+
+<pre><code>arr = ["this", "is", "an", "array"]
+</code></pre>
+
+<h3>Array items can be separated by lines instead of commas</h3>
+
+<pre><code>arr = [
+    "this"
+    "is"
+    "an"
+    "array"
+]
+</code></pre>
+
+<h3>Slicing Array</h3>
+
+<pre><code>numbers = [1,2,3,4,5,6,7,8,9]
+
+# Two dots mean it includes the last index
+# In this case, start is [1,2,3]
+start = numbers[0..2]
+
+# Three dots mean it excludes the last index
+# In this case, middle is [4,5]
+middle = numbers[3...6]
+
+# Omitted first index implies 0
+# In this case, end is [7,8,9]
+end = numbers[6..]
+
+# Omitted last index implies the length of the array
+# In this case, copy is [1,2,3,4,5,6,7,8,9]
+copy = numbers[..]
+</code></pre>
+
+<h3>Array membership</h3>
+
+<p><code>in</code> is used to test membership in an array</p>
+
+<pre><code>1 in [1,2,3,4]
+# returns true
+</code></pre>
+
+<h2>3. String</h2>
+
+<h3>Multiline strings are allowed.</h3>
+
+<pre><code>mobyDick = "Call me Ishmael. Some years ago --
+    never mind how long precisely -- having little
+    or no money in my purse, and nothing particular
+    to interest me on shore, I thought I would sail
+    about a little and see the watery part of the
+    world..."
+</code></pre>
+
+<h3>Block strings for preserving indentation</h3>
+
+<pre><code>html = """
+        &lt;strong&gt;
+                cup of coffeescript
+        &lt;/strong&gt;
+        """
+</code></pre>
+
+<h3>Block comments</h3>
+
+<pre><code>###
+This is a comment
+###
+</code></pre>
+
+<h2>2. Objects</h2>
+
+<h3>Same syntax as javascript</h3>
+
+<pre><code>obj = {name: "this is an object", language: "english"}
+</code></pre>
+
+<h3>Object items can be written like YAML, without the braces</h3>
+
+<pre><code>obj = 
+    name: "this is an object"
+    language: "english"
+</code></pre>
+
+<h3>Object Membership</h3>
+
+<pre><code>"john" in {john: 1, mary: 2, susan:3}
+# returns true
+</code></pre>
+
+<h2>3. Lexical Scoping</h2>
+
+<p>Everything is naturally declared within lexial scope</p>
+
+<pre><code>outer = 1
+change = -&gt;
+    inner = -1
+    outer = 10
+inner = change()
+</code></pre>
+
+<h2>Immediately Invoked Function</h2>
+
+<p><code>do</code> is used to immeidately invoke a function in order to make sure variables are closed over. For example:</p>
+
+<pre><code>do (x) -&gt; x*x
+</code></pre>
+
+<p>is same as:</p>
+
+<pre><code>(function(x){
+    return x * x;
+}());
+</code></pre>
+
+<p>Also, there is no global variable. If I really want to use window level global variable, I need to explicitly say it.</p>
+
+<pre><code>window.globalVariable = 1
+</code></pre>
+
+<h2>4. Conditionals</h2>
+
+<pre><code>if sexy and iKnowIt
+    wiggle()
+    wiggle()
+else
+    workOut()
+</code></pre>
+
+<h3>postfix IF</h3>
+
+<pre><code>singing = true
+mood = "good" if singing
+</code></pre>
+
+<h3>IF + THEN</h3>
+
+<pre><code>date = if friday then sue else jill
+# same as
+# friday ? sue : jill;
+</code></pre>
+
+<h3>Switch</h3>
+
+<ul>
+<li><code>case:</code> in javascript translates to <code>when</code> + <code>then</code></li>
+<li><code>default</code> in javascript translates to <code>else</code> in the end
+  switch day
+      when &ldquo;Mon&rdquo; then go work
+      when &ldquo;Tue&rdquo; then go relax
+      when &ldquo;Thu&rdquo; then go iceFishing
+      when &ldquo;Fri&rdquo;, &ldquo;Sat&rdquo;
+          if day is bingoDay
+              go bingo
+                  go dancing
+      when &ldquo;Sun&rdquo; then go church
+      else go work</li>
+</ul>
+
+
+<h2>5. Loops</h2>
+
+<h3>Comprehensions instead of Loops</h3>
+
+<p>Comprehensions are like <code>for</code> loops but is an expression, which can be passed around</p>
+
+<pre><code># Iterating through an array and returning squares
+square = (x) -&gt; x*x
+square(x) for x in [1,2,3,4,5]
+
+# Adding two values
+counter = (x,y) -&gt; x + " is number " + y
+counter(x, index) for x, index in ["John", "Mary", "Susan", "Ethan"]
+
+# Using conditionals with comprehensions #1
+square = (x) -&gt; x*x
+square(x) for x in [1,2,3,4,5] when x &gt; 2
+
+# Using conditionals with comprehensions #2
+counter = (x,y) -&gt; x + " is number " + y
+counter(x, index) for x, index in ["John", "Mary", "Susan", "Ethan"] when x isnt "John"
+</code></pre>
+
+<h3>Comprehension for objects</h3>
+
+<p>Use <code>of</code> intead of <code>in</code></p>
+
+<pre><code>children = John:1, Mary:2, Susan:3, Ethan:4
+"#{child} is #{age}" for child, age of children
+</code></pre>
+
+<h3>While loop</h3>
+
+<p>While loop in Coffeescript can be used as an expression. Which means it as a return value. For example:</p>
+
+<pre><code>num = 6
+lyrics = while num -= 1
+  "#{num} little monkeys"
+</code></pre>
+
+<p>In this cas,e <code>lyrics</code> is &ldquo;1 monkeys&rdquo;</p>
+
+<p>The above code is same as:</p>
+
+<pre><code>num = 6
+lyrics = "#{num} little monkeys" while num -= 1
+</code></pre>
+
+<h2>6. Misc</h2>
+
+<h3>Logic</h3>
+
+<p><code>or</code> is same as <code>||</code></p>
+
+<p><code>and</code> is same as <code>&amp;&amp;</code></p>
+
+<p><code>not</code> is same as <code>!</code></p>
+
+<p><code>on</code> is same as <code>true</code></p>
+
+<p><code>yes</code> is same as <code>true</code></p>
+
+<p><code>off</code> is same as <code>false</code></p>
+
+<p><code>no</code> is same as <code>false</code></p>
+
+<p><code>is</code> is same as <code>===</code></p>
+
+<p><code>isnt</code> is same as <code>!==</code></p>
+
+<h3>Instance variable</h3>
+
+<p><code>@property</code> is same as <code>this.property</code></p>
+
+<h3>Existential ?</h3>
+
+<p>Just add <code>?</code> to a variable to check if it&rsquo;s not <code>null</code> and not <code>undefined</code></p>
+
+<pre><code>mindless = true if not mind?
+</code></pre>
+
+<h2>7. Class</h2>
+
+<h3>Class declaration</h3>
+
+<pre><code>class Animal
+    constructor: (name) -&gt; 
+        @name = name        # assigning to instance variable
+    move: (meters) -&gt;
+        alert @name + "{meters}m."
+    price: 5        # instance variable
+</code></pre>
+
+<h3>Class inheritance</h3>
+
+<ul>
+<li><code>extends</code> is used for inheritance</li>
+<li><code>super</code> is used for calling its super class method
+  class Snake extends Animal
+      move: &ndash;>
+          alert &ldquo;slithering&hellip;&rdquo;
+          super 5</li>
+</ul>
+
+
+<h3>Instantiating a class</h3>
+
+<pre><code>sam = new Snake "Sammy the Python"
+</code></pre>
+
+<h3>Accessing prototype</h3>
+
+<pre><code>String::dasherize = -&gt;
+      this.replace /_/g, "-"
+</code></pre>
+
+<p>in javascript, it would look like this:</p>
+
+<pre><code>String.prototype.dasherize = function() {
+    return this.replace(/_/g, "-");
+};
+</code></pre>
+
+<h2>8. Destructuring assignment</h2>
+
+<p>Basically it&rsquo;s a feature where an assignment can extract out values from right to left.</p>
+
+<h3>A. Array assignment</h3>
+
+<pre><code>weatherReport = (location) -&gt; [location, 72, "Mostly Sunny"]
+[city, temp, forecast] = weatherReport "Berkeley, CA"
+</code></pre>
+
+<h3>B. Object assignment</h3>
+
+<p>Here&rsquo;s a basic usage:</p>
+
+<pre><code>drink = name: 'coffee', caffeine: true
+{name: name, caffeine, caffeine} = drink
+# At this point, 'name' is "coffee", and "caffeine" is true
+</code></pre>
+
+<p>We can even go shorter. no need to do the redundant {name: name, caffeine: caffeine}</p>
+
+<pre><code>drink = name: 'coffee', caffeine: true
+{name, caffeine} = drink
+# At this point, 'name' is "coffee", and "caffeine" is true
+</code></pre>
+
+<p>It doesn&rsquo;t matter how deep we go, it still manages to extract the relevant fields</p>
+
+<pre><code>kid = name: 'John', age: 12, address: { city: 'San Francisco', state: 'CA' }
+{ address: { city, state } } = kid
+# This resluts in 'city' being assigned as 'San Francisco', and 'state' being assigned as 'CA'
+</code></pre>
+
+<p>Destructuring is also useful for class initialization</p>
+
+<pre><code>class Person
+    constructor: (options) -&gt; {@name, @age, @height} = options
+</code></pre>
+
+<h2>9. Context binding</h2>
+
+<p><code>=&gt;</code> (fat arrow) is used instead of <code>-&gt;</code> (normal arrow)</p>
+
+<h3>A. When thin arrow &ldquo;&ndash;>&rdquo; is wrong</h3>
+
+<p>For example, this is wrong, because &ldquo;this&rdquo; inside the click callback is the button object.</p>
+
+<pre><code>class Counter
+    constructor: -&gt;
+        @count = 0
+        $("button").click(e) -&gt;
+            @count++
+</code></pre>
+
+<p>In javascript it&rsquo;s same as doing:</p>
+
+<pre><code>var Counter = function(){
+    this.count = 0;
+    $("button").click(function(e){
+        this.count++;
+    });
+};
+</code></pre>
+
+<h3>B. Fat arrow &ldquo;=>&rdquo; to the rescue</h3>
+
+<p>Instead, the click callback should use fat arrow, like this</p>
+
+<pre><code>class Counter
+    constructor: -&gt;
+        @count = 0
+        $("button").click(e) =&gt;
+            @count++
+</code></pre>
+
+<p>In javascript it&rsquo;s same as doing:</p>
+
+<pre><code>var Counter = function(){
+    this.count = 0;
+    _.bind($("button").click(function(e){
+        this.count++;
+    }), this);
+};
+</code></pre>
+
+    
+      <div class="sharing">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4daee9911f9dfcb4"></script>
+</div>
+    
+  
+  
+  <footer class="meta">
+    
+
+
+
+    
+  </footer>
+  
+</div>
+</article></div>
+	<footer id="footer" class="inner"><div class="social alignright">
+	
+	
+	
+	
+	
+	<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+</div>
+<p>&copy; 2013 Ezrasuki</p>
+<div class="clearfix"></div></footer>
+	<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+	(function($){
+		$('.entry-content').each(function(i){
+			var _i = i;
+			$(this).find('img').each(function(){
+				var alt = $(this).attr('alt');
+
+				if (alt == '' || typeof alt == 'undefined'){
+					$(this).wrap('<a href="'+$(this).attr('src')+'" class="fancybox" rel="gallery'+_i+'" />');
+				} else {
+					$(this).after('<span class="caption">'+alt+'</span>').wrap('<a href="'+$(this).attr('src')+'" class="fancybox" title="'+alt+'" rel="gallery'+_i+'" />');
+				}
+			});
+		});
+		$('.fancybox').fancybox();
+	})(jQuery);
+</script>
+
+
+
+
+
+</body>
+</html>
