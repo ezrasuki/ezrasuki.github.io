@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: activerecord | ezrasuki]]></title>
+  <link href="http://ezrasuki.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
+  <link href="http://ezrasuki.github.io/"/>
+  <updated>2013-10-07T04:47:10-04:00</updated>
+  <id>http://ezrasuki.github.io/</id>
+  <author>
+    <name><![CDATA[Ezrasuki]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[has_many: through: source:]]></title>
+    <link href="http://ezrasuki.github.io/blog/2013/10/07/has-many-through-source/"/>
+    <updated>2013-10-07T04:14:00-04:00</updated>
+    <id>http://ezrasuki.github.io/blog/2013/10/07/has-many-through-source</id>
+    <content type="html"><![CDATA[<p>Here&rsquo;s a very simple model of Student&rsquo;s</p>
+
+<pre><code>class Employee &lt; ActiveRecord::Base
+  has_many: :families
+end
+
+class Family &lt; ActiveRecord::Base
+  belongs_to: :employee
+end
+</code></pre>
+
+<p>Now if I wanted to add a StudentGroup class to which a student belongs, and add the group&rsquo;s notes,</p>
+
+<pre><code>class Employee &lt; ActiveRecord::Base
+  has_many: :families
+  belongs_to: :company
+end
+
+class Family &lt; ActiveRecord::Base
+  belongs_to: :student
+end
+
+class Company &lt; ActiveRecord::Base
+  has_many: :employees
+  has_many: :employee_families, :through =&gt; :employees, :source =&gt; :families
+end
+</code></pre>
+
+<p><code>:employee_families</code> is a name I would like to use in <code>Company</code> to refer to all the family members of a company&rsquo;s employees. <code>Employee</code> class doesn&rsquo;t have any <code>:employee_families</code> association on it, so I need to define it inside Company using <code>:source =&gt; :famlies</code>.</p>
+
+<p>This provides context to <code>:families</code>. For example, an employee has families: <code>@employee.families</code>. If I wanted to get all the family members of a company&rsquo;s employees, i can do something like this: <code>@company.employees.families</code>. This is same as <code>@company.employee_families</code>.</p>
+
+<p>Another example. This time it&rsquo;s a self-referential association. Let&rsquo;s say I want to create a Twitter clone. A User follows another User.</p>
+
+<pre><code>class Relationship
+  belongs_to: :followed, class_name: :User
+  belongs_to: :follower, class_name: :User
+end
+
+class User
+  has_many: :relationships, foreign_key: :followed_id
+  has_many: :followed_users, through: :relationships, source: :followed
+
+  has_many: :reverse_relationships, foreign_key: :follower_id
+  has_many: :follower_users, through: :relationships, source: :follower
+end
+</code></pre>
+
+<p>In this case, depending on what I specify as <code>source:</code> it can mean entirely different things, since User can play two different roles: <code>followed</code> and <code>follower</code>.</p>
+]]></content>
+  </entry>
+  
+</feed>

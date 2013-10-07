@@ -4,7 +4,7 @@
   <title><![CDATA[Category: learn | ezrasuki]]></title>
   <link href="http://ezrasuki.github.io/blog/categories/learn/atom.xml" rel="self"/>
   <link href="http://ezrasuki.github.io/"/>
-  <updated>2013-09-11T21:35:45-04:00</updated>
+  <updated>2013-10-07T04:47:10-04:00</updated>
   <id>http://ezrasuki.github.io/</id>
   <author>
     <name><![CDATA[Ezrasuki]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[rails 4]]></title>
+    <link href="http://ezrasuki.github.io/blog/2013/09/15/rails-4/"/>
+    <updated>2013-09-15T16:47:00-04:00</updated>
+    <id>http://ezrasuki.github.io/blog/2013/09/15/rails-4</id>
+    <content type="html"><![CDATA[<h1>puts vs. print</h1>
+
+<ul>
+<li><code>puts</code> : prints a string, followed by newline</li>
+<li><code>print</code> : prints a string, no newline</li>
+</ul>
+
+
+<h1>Ruby help</h1>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CGImage vs. CIImage vs. UIImage]]></title>
