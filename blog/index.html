@@ -7,8 +7,8 @@
 	<meta name="author" content="Ezrasuki">
 
 	
-	<meta name="description" content="Here&rsquo;s a very simple model of Student&rsquo;s class Employee &lt; ActiveRecord::Base has_many: :families
-end class Family &lt; ActiveRecord:: &hellip;">
+	<meta name="description" content="Here&rsquo;s a very simple model of Employee and her/his family class Employee &lt; ActiveRecord::Base has_many: :families
+end class Family &lt; &hellip;">
 	
 
 	<link href="/atom.xml" rel="alternate" title="ezrasuki" type="application/atom+xml">
@@ -57,7 +57,7 @@ end class Family &lt; ActiveRecord:: &hellip;">
 </header>
 <div class="entry-content">
   
-    <p>Here&rsquo;s a very simple model of Student&rsquo;s</p>
+    <p>Here&rsquo;s a very simple model of Employee and her/his family</p>
 
 <pre><code>class Employee &lt; ActiveRecord::Base
   has_many: :families
@@ -68,7 +68,7 @@ class Family &lt; ActiveRecord::Base
 end
 </code></pre>
 
-<p>Now if I wanted to add a StudentGroup class to which a student belongs, and add the group&rsquo;s notes,</p>
+<p>Now if I wanted to add a Company to which employees belong, so that I can invite all the family members of a company&rsquo;s employees</p>
 
 <pre><code>class Employee &lt; ActiveRecord::Base
   has_many: :families
